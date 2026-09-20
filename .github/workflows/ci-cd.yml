@@ -1,0 +1,133 @@
+name: SkillBridge Enterprise CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # Job 1: Backend Integration & 97 Automated Tests
+  backend-ci:
+    name: Backend Test Suite & Health Verification
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:6-jammy
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Seed Test Database
+        working-directory: ./backend
+        env:
+          MONGO_URI: mongodb://localhost:27017/skillbridge_ayush
+          NODE_ENV: test
+          JWT_SECRET: supersecret_skillbridge_ayush_sih2026_jwt_key_98765
+        run: node seeds/seed.js
+
+      - name: Start API Server in Background
+        working-directory: ./backend
+        env:
+          PORT: 5000
+          NODE_ENV: test
+          MONGO_URI: mongodb://localhost:27017/skillbridge_ayush
+          JWT_SECRET: supersecret_skillbridge_ayush_sih2026_jwt_key_98765
+        run: |
+          node server.js &
+          sleep 3
+
+      - name: Run Master Automated Test Suite (10 Suites / 97 Tests)
+        working-directory: ./backend
+        run: node tests/run_all_tests.js
+
+  # Job 2: Frontend Production Build & Bundle Inspection
+  frontend-ci:
+    name: Frontend Compilation & Production Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Execute Vite Production Build
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Verify Distribution Artifacts
+        working-directory: ./frontend
+        run: |
+          test -f dist/index.html
+          echo "Vite distribution artifacts successfully validated."
+
+  # Job 3: Docker Multi-Container Compose Validation
+  docker-validation:
+    name: Docker Container Build & Composition
+    needs: [backend-ci, frontend-ci]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Validate Docker Compose Configuration
+        run: docker compose config
+
+      - name: Build Multi-Container Images
+        run: docker compose build --parallel
+
+  # Job 4: Dependency Security Audit
+  security-audit:
+    name: OWASP Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Backend Security Audit
+        working-directory: ./backend
+        run: npm audit --audit-level=high || true
+
+      - name: Frontend Security Audit
+        working-directory: ./frontend
+        run: npm audit --audit-level=high || true
