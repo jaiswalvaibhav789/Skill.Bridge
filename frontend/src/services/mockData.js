@@ -39,181 +39,6 @@ export const MOCK_USERS = {
   }
 };
 
-export const MOCK_STUDENT_PROFILE = {
-  _id: 'mock-student-profile-1',
-  user: MOCK_USERS.student._id,
-  fullName: 'Ayush Sharma',
-  rollNumber: 'AIIA-2022-BAMS-042',
-  degree: 'BAMS',
-  department: 'Ayush Medicine & Surgery',
-  passingYear: 2026,
-  cgpa: 8.4,
-  portfolioSlug: 'ayush-sharma-aiia',
-  institute: {
-    _id: 'mock-inst-1',
-    instituteName: 'All India Institute of Ayurveda (AIIA), New Delhi',
-    aisheCode: 'C-54321',
-    location: { city: 'New Delhi', state: 'Delhi' }
-  },
-  targetCareerRole: {
-    _id: 'mock-role-1',
-    title: 'Ayush Quality Assurance & GMP Officer',
-    industrySector: 'Pharmaceuticals',
-    averageSalaryRange: '₹4.5 LPA - ₹8.5 LPA'
-  },
-  skills: [
-    {
-      skill: {
-        _id: 'skill-1',
-        name: 'Nadi Pariksha (Pulse Diagnosis)',
-        category: 'Clinical',
-        ayushBranch: 'Ayurveda',
-        industryDemandScore: 92
-      },
-      proficiency: 'Intermediate',
-      proficiencyScore: 78,
-      isEndorsed: true,
-      verifiedByAssessment: true,
-      credentialHash: 'a89f92d4b91730bf183296c01e91c7847b2c019d5e378ad64f8f4119d8fa7210',
-      issuedAt: '2024-05-10T10:00:00.000Z'
-    },
-    {
-      skill: {
-        _id: 'skill-2',
-        name: 'Herbal Extraction & Standardization',
-        category: 'Pharma_Manufacturing',
-        ayushBranch: 'Ayurveda',
-        industryDemandScore: 94
-      },
-      proficiency: 'Intermediate',
-      proficiencyScore: 72,
-      isEndorsed: true,
-      verifiedByAssessment: true,
-      credentialHash: '3b09f427cd5819ad51b8c028e3b5e4a819b7d34190ad56f874bc091ea2801456',
-      issuedAt: '2024-06-12T11:30:00.000Z'
-    },
-    {
-      skill: {
-        _id: 'skill-3',
-        name: 'Ayush Good Manufacturing Practice (GMP)',
-        category: 'Pharma_Manufacturing',
-        ayushBranch: 'Common',
-        industryDemandScore: 96
-      },
-      proficiency: 'Advanced',
-      proficiencyScore: 88,
-      isEndorsed: true,
-      verifiedByAssessment: true,
-      credentialHash: 'f412d098a834b9e2840c83a15239e0ad7bc418a9928d546cb98fa201b17e4368',
-      issuedAt: '2024-07-01T09:15:00.000Z'
-    }
-  ]
-};
-
-export const MOCK_OPPORTUNITIES = [
-  {
-    _id: 'mock-opp-1',
-    title: 'Ayush Quality Control & Analytical Analyst',
-    type: 'Internship',
-    stipend: '₹28,000 / month',
-    durationMonths: 6,
-    openingsCount: 3,
-    location: 'Ghaziabad, Delhi-NCR',
-    workplaceType: 'On-site',
-    description: 'Lead botanical testing, extract fingerprinting, and regulatory documentation according to Ayurvedic Pharmacopoeia of India (API).',
-    postedBy: {
-      _id: 'mock-industry-1',
-      companyName: 'Dabur Ayush Research & Manufacturing Ltd',
-      location: { city: 'Ghaziabad', state: 'Uttar Pradesh' }
-    },
-    compatibilityScore: 91,
-    matchScore: 91,
-    factorBreakdown: {
-      skillScore: 92,
-      eligibilityScore: 95,
-      careerAlignmentScore: 90,
-      locationScore: 85,
-      stipendScore: 92
-    },
-    requiredSkills: [
-      { skill: { name: 'Ayush Good Manufacturing Practice (GMP)' }, minProficiencyScore: 80 },
-      { skill: { name: 'Herbal Extraction & Standardization' }, minProficiencyScore: 70 }
-    ],
-    deadline: '2026-11-30'
-  },
-  {
-    _id: 'mock-opp-2',
-    title: 'Clinical Research Associate (Ayurveda GCP Trials)',
-    type: 'Full-time',
-    stipend: '₹6.2 LPA',
-    durationMonths: 12,
-    openingsCount: 2,
-    location: 'Bengaluru, Karnataka',
-    workplaceType: 'Hybrid',
-    description: 'Coordinate multi-centric clinical trials for novel Ayurvedic formulations in compliance with Ministry of Ayush ethical guidelines.',
-    postedBy: {
-      _id: 'mock-industry-2',
-      companyName: 'The Himalaya Drug Company (R&D Center)',
-      location: { city: 'Bengaluru', state: 'Karnataka' }
-    },
-    compatibilityScore: 86,
-    matchScore: 86,
-    factorBreakdown: {
-      skillScore: 84,
-      eligibilityScore: 90,
-      careerAlignmentScore: 88,
-      locationScore: 80,
-      stipendScore: 86
-    },
-    requiredSkills: [
-      { skill: { name: 'Clinical Trial GCP Documentation' }, minProficiencyScore: 75 },
-      { skill: { name: 'Nadi Pariksha (Pulse Diagnosis)' }, minProficiencyScore: 70 }
-    ],
-    deadline: '2026-12-15'
-  },
-  {
-    _id: 'mock-opp-3',
-    title: 'Digital Health & Tele-Ayurveda Fellow',
-    type: 'Internship',
-    stipend: '₹22,000 / month',
-    durationMonths: 3,
-    openingsCount: 5,
-    location: 'Remote',
-    workplaceType: 'Remote',
-    description: 'Assist Senior Vaidyas with digital triaging, NAMASTE Portal morbidity codes, and automated patient follow-ups.',
-    postedBy: {
-      _id: 'mock-industry-3',
-      companyName: 'Ayush Digital Health Mission Partner',
-      location: { city: 'New Delhi', state: 'Delhi' }
-    },
-    compatibilityScore: 82,
-    matchScore: 82,
-    factorBreakdown: {
-      skillScore: 80,
-      eligibilityScore: 85,
-      careerAlignmentScore: 82,
-      locationScore: 95,
-      stipendScore: 80
-    },
-    requiredSkills: [
-      { skill: { name: 'Electronic Health Record (EHR) Operation' }, minProficiencyScore: 70 }
-    ],
-    deadline: '2026-10-31'
-  }
-];
-
-export const MOCK_APPLICATIONS = [
-  {
-    _id: 'mock-app-1',
-    opportunity: MOCK_OPPORTUNITIES[0],
-    student: MOCK_STUDENT_PROFILE,
-    status: 'Shortlisted',
-    appliedDate: '2026-09-18T10:00:00.000Z',
-    matchScore: 91,
-    notes: 'Candidate passed initial portfolio screening with verified GMP credentials.'
-  }
-];
-
 export const MOCK_SKILLS = [
   { _id: 's1', name: 'Nadi Pariksha (Pulse Diagnosis)', category: 'Clinical', ayushBranch: 'Ayurveda', industryDemandScore: 92, benchmarkScore: 85 },
   { _id: 's2', name: 'Panchakarma Protocol Planning', category: 'Clinical', ayushBranch: 'Ayurveda', industryDemandScore: 88, benchmarkScore: 80 },
@@ -255,6 +80,192 @@ export const MOCK_CAREER_ROLES = [
   }
 ];
 
+export const MOCK_STUDENT_PROFILE = {
+  _id: 'mock-student-profile-1',
+  user: MOCK_USERS.student._id,
+  fullName: 'Ayush Sharma',
+  rollNumber: 'AIIA-2022-BAMS-042',
+  degree: 'BAMS',
+  department: 'Ayush Medicine & Surgery',
+  passingYear: 2026,
+  cgpa: 8.4,
+  portfolioSlug: 'ayush-sharma-aiia',
+  institute: {
+    _id: 'mock-inst-1',
+    instituteName: 'All India Institute of Ayurveda (AIIA), New Delhi',
+    aisheCode: 'C-54321',
+    location: { city: 'New Delhi', state: 'Delhi' }
+  },
+  targetCareerRole: MOCK_CAREER_ROLES[0],
+  skills: [
+    {
+      _id: 'st-sk-1',
+      skill: MOCK_SKILLS[0],
+      proficiency: 'Intermediate',
+      proficiencyScore: 78,
+      isEndorsed: true,
+      verifiedByAssessment: true,
+      credentialHash: 'a89f92d4b91730bf183296c01e91c7847b2c019d5e378ad64f8f4119d8fa7210',
+      issuedAt: '2024-05-10T10:00:00.000Z'
+    },
+    {
+      _id: 'st-sk-2',
+      skill: MOCK_SKILLS[2],
+      proficiency: 'Intermediate',
+      proficiencyScore: 72,
+      isEndorsed: true,
+      verifiedByAssessment: true,
+      credentialHash: '3b09f427cd5819ad51b8c028e3b5e4a819b7d34190ad56f874bc091ea2801456',
+      issuedAt: '2024-06-12T11:30:00.000Z'
+    },
+    {
+      _id: 'st-sk-3',
+      skill: MOCK_SKILLS[3],
+      proficiency: 'Advanced',
+      proficiencyScore: 88,
+      isEndorsed: true,
+      verifiedByAssessment: true,
+      credentialHash: 'f412d098a834b9e2840c83a15239e0ad7bc418a9928d546cb98fa201b17e4368',
+      issuedAt: '2024-07-01T09:15:00.000Z'
+    }
+  ]
+};
+
+export const MOCK_OPPORTUNITIES = [
+  {
+    _id: 'mock-opp-1',
+    title: 'Ayush Quality Control & Analytical Analyst',
+    type: 'Internship',
+    stipendOrSalary: '₹28,000 / month',
+    stipend: '₹28,000 / month',
+    durationMonths: 6,
+    openingsCount: 3,
+    location: 'Ghaziabad, Delhi-NCR',
+    workplaceType: 'On-site',
+    minCgpa: 7.0,
+    description: 'Lead botanical testing, extract fingerprinting, and regulatory documentation according to Ayurvedic Pharmacopoeia of India (API).',
+    industry: {
+      _id: 'mock-industry-1',
+      companyName: 'Dabur Ayush Research & Manufacturing Ltd',
+      location: { city: 'Ghaziabad', state: 'Uttar Pradesh' }
+    },
+    postedBy: {
+      _id: 'mock-industry-1',
+      companyName: 'Dabur Ayush Research & Manufacturing Ltd',
+      location: { city: 'Ghaziabad', state: 'Uttar Pradesh' }
+    },
+    compatibilityScore: 91,
+    matchScore: 91,
+    matchReasons: ['92% GMP Coverage', 'Enrolled in AIIA New Delhi', 'High Analytical Chemistry Aptitude'],
+    factorBreakdown: {
+      skillScore: 92,
+      eligibilityScore: 95,
+      careerAlignmentScore: 90,
+      practicalScore: 85,
+      locationScore: 85
+    },
+    requiredSkills: [
+      { _id: 's4', name: 'Ayush Good Manufacturing Practice (GMP)' },
+      { _id: 's3', name: 'Herbal Extraction & Standardization' }
+    ],
+    missingSkills: [],
+    deadline: '2026-11-30'
+  },
+  {
+    _id: 'mock-opp-2',
+    title: 'Clinical Research Associate (Ayurveda GCP Trials)',
+    type: 'Full-time',
+    stipendOrSalary: '₹6.2 LPA',
+    stipend: '₹6.2 LPA',
+    durationMonths: 12,
+    openingsCount: 2,
+    location: 'Bengaluru, Karnataka',
+    workplaceType: 'Hybrid',
+    minCgpa: 7.5,
+    description: 'Coordinate multi-centric clinical trials for novel Ayurvedic formulations in compliance with Ministry of Ayush ethical guidelines.',
+    industry: {
+      _id: 'mock-industry-2',
+      companyName: 'The Himalaya Drug Company (R&D Center)',
+      location: { city: 'Bengaluru', state: 'Karnataka' }
+    },
+    postedBy: {
+      _id: 'mock-industry-2',
+      companyName: 'The Himalaya Drug Company (R&D Center)',
+      location: { city: 'Bengaluru', state: 'Karnataka' }
+    },
+    compatibilityScore: 86,
+    matchScore: 86,
+    matchReasons: ['Verified Pulse Diagnostics', 'BAMS Finalist'],
+    factorBreakdown: {
+      skillScore: 84,
+      eligibilityScore: 90,
+      careerAlignmentScore: 88,
+      practicalScore: 80,
+      locationScore: 80
+    },
+    requiredSkills: [
+      { _id: 's5', name: 'Clinical Trial GCP Documentation' },
+      { _id: 's1', name: 'Nadi Pariksha (Pulse Diagnosis)' }
+    ],
+    missingSkills: [
+      { _id: 's5', name: 'Clinical Trial GCP Documentation' }
+    ],
+    deadline: '2026-12-15'
+  },
+  {
+    _id: 'mock-opp-3',
+    title: 'Digital Health & Tele-Ayurveda Fellow',
+    type: 'Internship',
+    stipendOrSalary: '₹22,000 / month',
+    stipend: '₹22,000 / month',
+    durationMonths: 3,
+    openingsCount: 5,
+    location: 'Remote',
+    workplaceType: 'Remote',
+    minCgpa: 6.5,
+    description: 'Assist Senior Vaidyas with digital triaging, NAMASTE Portal morbidity codes, and automated patient follow-ups.',
+    industry: {
+      _id: 'mock-industry-3',
+      companyName: 'Ayush Digital Health Mission Partner',
+      location: { city: 'New Delhi', state: 'Delhi' }
+    },
+    postedBy: {
+      _id: 'mock-industry-3',
+      companyName: 'Ayush Digital Health Mission Partner',
+      location: { city: 'New Delhi', state: 'Delhi' }
+    },
+    compatibilityScore: 82,
+    matchScore: 82,
+    matchReasons: ['Remote friendly', 'Hospital EHR Familiarity'],
+    factorBreakdown: {
+      skillScore: 80,
+      eligibilityScore: 85,
+      careerAlignmentScore: 82,
+      practicalScore: 78,
+      locationScore: 95
+    },
+    requiredSkills: [
+      { _id: 's7', name: 'Electronic Health Record (EHR) Operation' }
+    ],
+    missingSkills: [
+      { _id: 's7', name: 'Electronic Health Record (EHR) Operation' }
+    ],
+    deadline: '2026-10-31'
+  }
+];
+
+export const MOCK_APPLICATIONS = [
+  {
+    _id: 'mock-app-1',
+    opportunity: MOCK_OPPORTUNITIES[0],
+    student: MOCK_STUDENT_PROFILE,
+    status: 'Shortlisted',
+    appliedDate: '2026-09-18T10:00:00.000Z',
+    matchScore: 91,
+    notes: 'Candidate passed initial portfolio screening with verified GMP credentials.'
+  }
+];
+
 export const MOCK_LEARNING_PROGRAMS = [
   {
     _id: 'mock-course-1',
@@ -264,6 +275,8 @@ export const MOCK_LEARNING_PROGRAMS = [
     enrolledCount: 184,
     rating: 4.8,
     instructor: 'Prof. (Dr.) Rajesh Sharma',
+    provider: 'All India Institute of Ayurveda',
+    skillsSolvedCount: 2,
     level: 'Advanced',
     targetSkills: ['Ayush Good Manufacturing Practice (GMP)', 'Herbal Extraction & Standardization'],
     modules: [
@@ -280,6 +293,8 @@ export const MOCK_LEARNING_PROGRAMS = [
     enrolledCount: 310,
     rating: 4.9,
     instructor: 'Vaidya K. S. Murthy',
+    provider: 'National Institute of Ayurveda',
+    skillsSolvedCount: 1,
     level: 'Intermediate',
     targetSkills: ['Nadi Pariksha (Pulse Diagnosis)'],
     modules: [

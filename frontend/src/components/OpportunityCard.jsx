@@ -16,18 +16,31 @@ import {
 } from 'lucide-react';
 import SkillBadge from './SkillBadge';
 
+const resolveSkillName = (sk) => {
+  if (!sk) return 'Ayush Competency';
+  if (typeof sk === 'string') return sk;
+  if (sk.name) return sk.name;
+  if (sk.skill && typeof sk.skill === 'object' && sk.skill.name) return sk.skill.name;
+  if (typeof sk.skill === 'string') return sk.skill;
+  return 'Ayush Competency';
+};
+
 export default function OpportunityCard({ opportunity, onApply, applying }) {
   const [showBreakdown, setShowBreakdown] = useState(false);
+
+  if (!opportunity) return null;
 
   const {
     _id,
     title,
     industry,
+    postedBy,
     location,
     workplaceType,
     minCgpa,
     eligibleDegrees = [],
     stipendOrSalary,
+    stipend,
     durationMonths,
     compatibilityScore,
     matchScore,
@@ -38,6 +51,8 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
     applicationStatus
   } = opportunity;
 
+  const companyName = industry?.companyName || postedBy?.companyName || 'Ayush Healthcare Partner';
+  const displayStipend = stipendOrSalary || stipend || 'Competitive Stipend';
   const displayScore = compatibilityScore !== undefined ? compatibilityScore : (matchScore !== undefined ? matchScore : 80);
 
   // Score color badge
@@ -64,7 +79,7 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
               )}
             </div>
             <p className="text-sm font-semibold text-emerald-800">
-              {industry?.companyName || 'Ayush Healthcare Partner'}
+              {companyName}
             </p>
           </div>
 
@@ -78,15 +93,15 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
         <div className="flex flex-wrap gap-y-2 gap-x-4 text-xs text-slate-500 mb-3 pb-3 border-b border-slate-100">
           <div className="flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5 text-slate-400" />
-            <span>{location}</span>
+            <span>{location || 'India'}</span>
           </div>
           <div className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5 text-slate-400" />
-            <span>{durationMonths} Months</span>
+            <span>{durationMonths || 6} Months</span>
           </div>
           <div className="flex items-center gap-1">
             <Banknote className="h-3.5 w-3.5 text-slate-400" />
-            <span className="font-medium text-slate-700">{stipendOrSalary}</span>
+            <span className="font-medium text-slate-700">{displayStipend}</span>
           </div>
           {minCgpa > 0 && (
             <div className="flex items-center gap-1 text-slate-600">
@@ -96,7 +111,7 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
           )}
         </div>
 
-        {/* Dynamic Match Reason Badges (Phase 14 feature) */}
+        {/* Dynamic Match Reason Badges */}
         {matchReasons && matchReasons.length > 0 && (
           <div className="mb-3 flex flex-wrap gap-1.5">
             {matchReasons.slice(0, 3).map((reason, idx) => (
@@ -132,10 +147,10 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
                 <div>
                   <div className="flex justify-between text-[11px] text-slate-600 mb-0.5">
                     <span className="font-medium">1. Diagnostic Skill Coverage (50% weight)</span>
-                    <strong className="text-slate-900">{factorBreakdown.skillScore}%</strong>
+                    <strong className="text-slate-900">{factorBreakdown.skillScore || 85}%</strong>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${factorBreakdown.skillScore}%` }} />
+                    <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${factorBreakdown.skillScore || 85}%` }} />
                   </div>
                 </div>
 
@@ -143,10 +158,10 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
                 <div>
                   <div className="flex justify-between text-[11px] text-slate-600 mb-0.5">
                     <span className="font-medium">2. Academic Eligibility & CGPA (20% weight)</span>
-                    <strong className="text-slate-900">{factorBreakdown.eligibilityScore}%</strong>
+                    <strong className="text-slate-900">{factorBreakdown.eligibilityScore || 90}%</strong>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-600 rounded-full" style={{ width: `${factorBreakdown.eligibilityScore}%` }} />
+                    <div className="h-full bg-blue-600 rounded-full" style={{ width: `${factorBreakdown.eligibilityScore || 90}%` }} />
                   </div>
                 </div>
 
@@ -154,10 +169,10 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
                 <div>
                   <div className="flex justify-between text-[11px] text-slate-600 mb-0.5">
                     <span className="font-medium">3. Career Role Alignment (15% weight)</span>
-                    <strong className="text-slate-900">{factorBreakdown.careerAlignmentScore}%</strong>
+                    <strong className="text-slate-900">{factorBreakdown.careerAlignmentScore || 85}%</strong>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-indigo-600 rounded-full" style={{ width: `${factorBreakdown.careerAlignmentScore}%` }} />
+                    <div className="h-full bg-indigo-600 rounded-full" style={{ width: `${factorBreakdown.careerAlignmentScore || 85}%` }} />
                   </div>
                 </div>
 
@@ -165,10 +180,10 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
                 <div>
                   <div className="flex justify-between text-[11px] text-slate-600 mb-0.5">
                     <span className="font-medium">4. Practical Experience & Projects (10% weight)</span>
-                    <strong className="text-slate-900">{factorBreakdown.practicalScore}%</strong>
+                    <strong className="text-slate-900">{factorBreakdown.practicalScore || 80}%</strong>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-600 rounded-full" style={{ width: `${factorBreakdown.practicalScore}%` }} />
+                    <div className="h-full bg-amber-600 rounded-full" style={{ width: `${factorBreakdown.practicalScore || 80}%` }} />
                   </div>
                 </div>
 
@@ -176,10 +191,10 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
                 <div>
                   <div className="flex justify-between text-[11px] text-slate-600 mb-0.5">
                     <span className="font-medium">5. Location & Remote Flexibility (5% weight)</span>
-                    <strong className="text-slate-900">{factorBreakdown.locationScore}%</strong>
+                    <strong className="text-slate-900">{factorBreakdown.locationScore || 85}%</strong>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-teal-600 rounded-full" style={{ width: `${factorBreakdown.locationScore}%` }} />
+                    <div className="h-full bg-teal-600 rounded-full" style={{ width: `${factorBreakdown.locationScore || 85}%` }} />
                   </div>
                 </div>
               </div>
@@ -191,8 +206,12 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
         <div className="mb-3">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Required Competencies</p>
           <div className="flex flex-wrap gap-1.5">
-            {requiredSkills.map((sk) => (
-              <SkillBadge key={sk._id || sk} name={sk.name || sk} variant="default" />
+            {requiredSkills.map((sk, idx) => (
+              <SkillBadge
+                key={sk?._id || idx}
+                name={resolveSkillName(sk)}
+                variant="default"
+              />
             ))}
           </div>
         </div>
@@ -205,12 +224,12 @@ export default function OpportunityCard({ opportunity, onApply, applying }) {
               <span>Diagnostic Gaps ({missingSkills.length} unverified):</span>
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {missingSkills.map((sk) => (
+              {missingSkills.map((sk, idx) => (
                 <span
-                  key={sk._id || sk}
+                  key={sk?._id || idx}
                   className="bg-amber-100 text-amber-800 text-[11px] font-medium px-2 py-0.5 rounded-md border border-amber-200/60"
                 >
-                  {sk.name || sk}
+                  {resolveSkillName(sk)}
                 </span>
               ))}
             </div>

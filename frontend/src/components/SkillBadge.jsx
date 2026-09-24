@@ -2,6 +2,11 @@ import React from 'react';
 import { Check } from 'lucide-react';
 
 export default function SkillBadge({ name, isEndorsed = false, proficiency = null, variant = 'default' }) {
+  // Safely extract string name even if an object was passed
+  const displayName = typeof name === 'object' && name !== null
+    ? (name.name || name.skill?.name || (typeof name.skill === 'string' ? name.skill : 'Ayush Competency'))
+    : (name || 'Ayush Competency');
+
   return (
     <span
       className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium border transition ${
@@ -10,7 +15,7 @@ export default function SkillBadge({ name, isEndorsed = false, proficiency = nul
           : 'bg-slate-100 text-slate-700 border-slate-200'
       }`}
     >
-      <span>{name}</span>
+      <span>{displayName}</span>
       {isEndorsed && (
         <span title="Faculty Endorsed" className="text-emerald-600">
           <Check className="h-3 w-3 stroke-[3]" />
