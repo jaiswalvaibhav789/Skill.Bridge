@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff, Sparkles } from 'lucide-react';
 import Button from '../components/common/Button';
 
 export default function Login({ onLoginSuccess }) {
@@ -23,7 +23,7 @@ export default function Login({ onLoginSuccess }) {
     try {
       const { user, token } = await login({ email, password });
       if (onLoginSuccess) onLoginSuccess(token, user);
-      toastSuccess(`Welcome back, ${user.email}!`);
+      toastSuccess(`Welcome back, ${user.name || user.email}!`);
 
       const role = (user.role || '').toLowerCase();
       if (role === 'student') navigate('/student');
@@ -32,18 +32,12 @@ export default function Login({ onLoginSuccess }) {
       else if (role === 'institute' || role === 'admin') navigate('/institute');
       else navigate('/');
     } catch (err) {
-      const msg = err.response?.data?.message || 'Login failed. Please verify email and password.';
+      const msg = err.response?.data?.message || err.message || 'Login failed. Please verify email and password.';
       setError(msg);
       toastError(msg);
     } finally {
       setLoading(false);
     }
-  };
-
-  const fillDemo = (demoEmail, demoPassword = 'Password@123') => {
-    setEmail(demoEmail);
-    setPassword(demoPassword);
-    setError('');
   };
 
   return (
@@ -81,7 +75,7 @@ export default function Login({ onLoginSuccess }) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student.ayush@gmail.com"
+                  placeholder="name@domain.com"
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                 />
               </div>
@@ -103,6 +97,7 @@ export default function Login({ onLoginSuccess }) {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 transition"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -120,70 +115,7 @@ export default function Login({ onLoginSuccess }) {
             </Button>
           </form>
 
-          {/* 1-Click Quick Demo Profiles */}
-          <div className="mt-8 pt-6 border-t border-slate-100">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 text-center mb-3">
-              ⚡ 1-Click Demo Profiles (SIH & Evaluation)
-            </p>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <button
-                type="button"
-                onClick={() => fillDemo('student.ayush@gmail.com')}
-                className="p-2.5 text-left rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200/80 transition"
-              >
-                <span className="font-bold flex items-center gap-1.5 text-xs">
-                  👨‍🎓 Student
-                </span>
-                <span className="text-[10px] text-emerald-700 truncate block mt-0.5">student.ayush@gmail.com</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillDemo('careers@dabur.com')}
-                className="p-2.5 text-left rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200/80 transition"
-              >
-                <span className="font-bold flex items-center gap-1.5 text-xs">
-                  🏢 Industry
-                </span>
-                <span className="text-[10px] text-amber-700 truncate block mt-0.5">careers@dabur.com</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillDemo('dr.sharma@aiia.ac.in')}
-                className="p-2.5 text-left rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-950 border border-indigo-200/80 transition"
-              >
-                <span className="font-bold flex items-center gap-1.5 text-xs">
-                  👨‍🏫 Faculty
-                </span>
-                <span className="text-[10px] text-indigo-700 truncate block mt-0.5">dr.sharma@aiia.ac.in</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillDemo('director@aiia.ac.in')}
-                className="p-2.5 text-left rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-950 border border-sky-200/80 transition"
-              >
-                <span className="font-bold flex items-center gap-1.5 text-xs">
-                  🏫 Institute
-                </span>
-                <span className="text-[10px] text-sky-700 truncate block mt-0.5">director@aiia.ac.in</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillDemo('admin@ayush.gov.in')}
-                className="col-span-2 p-2.5 text-left rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200/80 transition"
-              >
-                <span className="font-bold flex items-center gap-1.5 text-xs">
-                  🛡️ Ministry Overseer / Admin
-                </span>
-                <span className="text-[10px] text-purple-700 truncate block mt-0.5">admin@ayush.gov.in</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center text-xs text-slate-500">
+          <div className="mt-8 text-center text-xs text-slate-500">
             Don't have an account?{' '}
             <Link to="/register" className="font-semibold text-emerald-600 hover:underline">
               Create an account
